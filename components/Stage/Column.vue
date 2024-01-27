@@ -1,8 +1,10 @@
 <template>
   <div
-    class="min-w-[350px] bg-red border border-gray-300 rounded p-4 flex flex-col transition"
+    class="min-w-[350px] bg-red border border-gray-300 rounded flex flex-col transition"
   >
-    {{ stage.id }}
+    <div class="p-4 flex items-center border-b border-gray-300 bg-blue-50">
+      <h2 class="text-xl font-bold">{{ stage.title }}</h2>
+    </div>
   </div>
 </template>
 

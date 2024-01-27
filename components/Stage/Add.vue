@@ -28,26 +28,18 @@
           <h3 class="text-lg font-bold">Add stage</h3>
         </div>
 
-        <div class="flex flex-col gap-1">
-          <label for="name" class="text-sm text-gray-700">Stage name</label>
+        <FormInput
+          id="stageName"
+          v-model="stageName"
+          label="Stage name"
+          placeholder="Stage name"
+          :error="errorMessage"
+        />
 
-          <input
-            id="name"
-            v-model="stageName"
-            type="text"
-            class="w-full py-2 px-4 border border-gray-300 rounded hover:text-blue-400 hover:border-blue-400 transition bg-white focus:outline-none focus:border-blue-400"
-            placeholder="Stage name"
-          />
-        </div>
-
-        <button
-          class="flex items-center justify-center gap-2 py-2 px-4 border bg-blue-400 text-white rounded transition w-full hover:bg-blue-500"
-          type="submit"
-        >
+        <FormButton type="submit">
           Add stage
-
           <IconPlusCircle />
-        </button>
+        </FormButton>
       </form>
 
       <button
@@ -74,16 +66,23 @@ const hovering = ref<boolean>(false)
 const adding = ref<boolean>(false)
 
 const stageName = ref<string>('')
+const errorMessage = ref<string>('')
 
 const addStage = () => {
-  stageName.value = ''
+  errorMessage.value = ''
 
-  adding.value = false
+  if (!stageName.value) {
+    errorMessage.value = 'Stage name is required'
+  } else {
+    setTimeout(() => {
+      canbanStore.addStage(stageName.value)
 
-  setTimeout(() => {
-    canbanStore.addStage(stageName.value)
+      useNuxtApp().$toast.info('Stage added')
 
-    useNuxtApp().$toast.info('Stage added')
-  }, 300)
+      stageName.value = ''
+
+      adding.value = false
+    }, 300)
+  }
 }
 </script>

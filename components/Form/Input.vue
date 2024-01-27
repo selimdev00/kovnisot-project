@@ -1,0 +1,32 @@
+<template>
+  <div class="flex flex-col gap-1">
+    <label :for="id" class="text-sm text-gray-700">{{ label }}</label>
+
+    <input
+      :id="id"
+      :value="modelValue"
+      :type="type"
+      class="w-full py-2 px-4 border border-gray-300 rounded hover:text-blue-400 hover:border-blue-400 transition bg-white focus:outline-none focus:border-blue-400"
+      :class="{ 'border-red-400': error }"
+      :placeholder="placeholder"
+      @input="emit('update:modelValue', $event.target.value)"
+    />
+
+    <div class="flex justify-end">
+      <span class="text-xs text-red-400">{{ error }}</span>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+defineProps<{
+  id: string
+  label: string
+  modelValue: string
+  placeholder: string
+  type: string
+  error?: string
+}>()
+
+const emit = defineEmits(['update:modelValue'])
+</script>
