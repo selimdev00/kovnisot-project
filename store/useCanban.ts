@@ -1,17 +1,18 @@
-export type Task = {
-  id: number
-  title: string
-}
+import type { Stage } from '~/types/Canban'
 
 export const useCanbanStore = defineStore('canban', () => {
-  const tasks = ref<Task[]>([])
+  const stages = ref<Stage[]>([])
 
-  const addTask = (task: Task) => {
-    tasks.value.push(task)
+  const addStage = (title: string) => {
+    stages.value.push({
+      id: stages.value.length + 1,
+      title,
+      tasks: [],
+    })
   }
 
   return {
-    tasks,
-    addTask,
+    stages,
+    addStage,
   }
 })

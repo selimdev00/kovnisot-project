@@ -1,3 +1,28 @@
+/* TAILWIND */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* SCROLLBAR STYLES */
+::-webkit-scrollbar {
+  @apply w-[8px] h-[8px];
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-blue-400 rounded;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-200 rounded;
+}
+
+/* VUE TRANSITION ANIMATIONS */
+.v-enter-from {
+  @apply opacity-0;
+}
+.v-enter-to {
+  @apply opacity-100;
+}
+.v-enter-active {
+  @apply transition duration-300;
+}
