@@ -14,4 +14,7 @@ export default defineNuxtConfig({
   pinia: {
     storesDirs: ['./store'],
   },
+  app: {
+    pageTransition: { name: 'fade', mode: 'out-in' },
+  },
 })

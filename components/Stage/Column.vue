@@ -1,18 +1,44 @@
 <template>
   <div
-    class="min-w-[350px] bg-red border border-gray-300 rounded flex flex-col transition"
+    class="min-w-[400px] bg-red border border-gray-300 rounded flex flex-col transition"
   >
     <div
-      class="p-4 flex justify-between items-center border-b border-gray-300 bg-blue-50"
+      class="p-4 flex gap-6 justify-between items-center border-b border-gray-300 bg-blue-50"
     >
-      <form @submit.prevent="saveStage">
-        <input
-          ref="stageTitleRef"
-          v-model="stageTitle"
-          type="text"
-          class="bg-transparent focus:outline-none text-xl font-bold cursor-pointer"
-        />
-      </form>
+      <div class="flex flex-col gap-1">
+        <div class="flex flex-wrap gap-x-1 items-center text-xs text-gray-500">
+          <span> {{ stage.tasks.length }} tasks </span>
+
+          <span>|</span>
+
+          <span>
+            Created:
+            {{
+              DateTime.fromISO(stage.created_at).setLocale('en').toRelative()
+            }}
+            ago
+          </span>
+
+          <span>|</span>
+
+          <span>
+            Last updated:
+            {{
+              DateTime.fromISO(stage.updated_at).setLocale('en').toRelative()
+            }}
+            ago
+          </span>
+        </div>
+
+        <form @submit.prevent="saveStage">
+          <input
+            ref="stageTitleRef"
+            v-model="stageTitle"
+            type="text"
+            class="bg-transparent focus:outline-none text-xl font-bold cursor-pointer"
+          />
+        </form>
+      </div>
 
       <div class="flex gap-2">
         <span
@@ -34,35 +60,47 @@
     <div
       class="p-4 flex-1 flex flex-col items-center justify-center bg-gray-50"
     >
-      <ul v-if="stage.tasks.length" class="h-full flex flex-col gap-2 w-full">
-        <li
-          v-for="task in stage.tasks"
-          :key="task.id"
-          class="p-4 bg-white rounded transition border border-gray-300 hover:border-blue-400 cursor-pointer"
+      <transition name="fade" mode="out-in">
+        <ul
+          v-if="!addingTask && stage.tasks.length"
+          class="h-full flex flex-col gap-2 w-full"
         >
-          {{ task.title }}
-        </li>
+          <TaskItem
+            v-for="task in stage.tasks"
+            :key="task.id"
+            :task="task"
+            :stage-id="props.stage.id"
+          />
 
-        <FormButton variant="secondary">
-          <span>Add task</span>
+          <li class="mx-auto">
+            <FormButton variant="secondary" @click="turnAddingTaskOn">
+              <span>Add task</span>
 
-          <span>
-            <IconPlusCircle />
-          </span>
-        </FormButton>
-      </ul>
+              <span>
+                <IconPlusCircle />
+              </span>
+            </FormButton>
+          </li>
+        </ul>
 
-      <div v-else class="text-gray-400 text-center flex flex-col gap-4">
-        <span>No tasks</span>
+        <TaskAdd
+          v-else-if="addingTask"
+          :stage-id="stage.id"
+          @close="turnAddingTaskOff"
+        />
 
-        <FormButton variant="secondary">
-          <span>Add task</span>
+        <div v-else class="text-gray-400 text-center flex flex-col gap-4">
+          <span>No tasks</span>
 
-          <span>
-            <IconPlusCircle />
-          </span>
-        </FormButton>
-      </div>
+          <FormButton variant="secondary" @click="turnAddingTaskOn">
+            <span>Add task</span>
+
+            <span>
+              <IconPlusCircle />
+            </span>
+          </FormButton>
+        </div>
+      </transition>
     </div>
 
     <teleport to="body">
@@ -100,6 +138,8 @@
 </template>
 
 <script setup lang="ts">
+import { DateTime } from 'luxon'
+
 import type { Stage } from '~/types/Canban'
 import { useConfirmDialog } from '@vueuse/core'
 
@@ -124,5 +164,15 @@ const saveStage = () => {
   canbanStore.updateStageTitle(props.stage.id, stageTitle.value)
 
   stageTitleRef.value?.blur()
+}
+
+const addingTask = ref<boolean>(false)
+
+const turnAddingTaskOn = () => {
+  addingTask.value = true
+}
+
+const turnAddingTaskOff = () => {
+  addingTask.value = false
 }
 </script>

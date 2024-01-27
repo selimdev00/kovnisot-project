@@ -1,5 +1,5 @@
 <template>
-  <button :class="classes[variant || 'primary']">
+  <button class="focus:outline-none" :class="classes[variant || 'primary']">
     <slot />
   </button>
 </template>

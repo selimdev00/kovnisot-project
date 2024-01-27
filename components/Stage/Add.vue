@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-w-[350px] bg-red border border-gray-300 rounded p-4 flex items-center justify-center transition"
+    class="min-w-[400px] bg-red border border-gray-300 rounded p-4 flex items-center justify-center transition"
     :class="{
       'border-blue-400': hovering || adding,
       'bg-blue-50': hovering || adding,

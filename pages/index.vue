@@ -14,7 +14,7 @@
           :stage="stage"
         />
 
-        <StageAdd />
+        <StageAdd key="add" />
       </TransitionGroup>
     </div>
   </div>
