@@ -5,7 +5,14 @@
     <div
       class="p-4 flex justify-between items-center border-b border-gray-300 bg-blue-50"
     >
-      <h2 class="text-xl font-bold">{{ stage.title }}</h2>
+      <form @submit.prevent="saveStage">
+        <input
+          ref="stageTitleRef"
+          v-model="stageTitle"
+          type="text"
+          class="bg-transparent focus:outline-none text-xl font-bold cursor-pointer"
+        />
+      </form>
 
       <div class="flex gap-2">
         <span
@@ -13,6 +20,13 @@
           @click="removeStage"
         >
           <IconTrash />
+        </span>
+
+        <span
+          class="cursor-pointer text-gray-400 transition hover:text-blue-600"
+          @click="stageTitleRef?.focus()"
+        >
+          <IconPencilOutline />
         </span>
       </div>
     </div>
@@ -87,7 +101,6 @@
 
 <script setup lang="ts">
 import type { Stage } from '~/types/Canban'
-
 import { useConfirmDialog } from '@vueuse/core'
 
 const { isRevealed, reveal, confirm, cancel, onConfirm } = useConfirmDialog()
@@ -103,4 +116,13 @@ onConfirm(() => {
 const canbanStore = useCanbanStore()
 
 const props = defineProps<{ stage: Stage }>()
+
+const stageTitle = ref<string>(props.stage.title)
+const stageTitleRef = ref<HTMLInputElement | null>(null)
+
+const saveStage = () => {
+  canbanStore.updateStageTitle(props.stage.id, stageTitle.value)
+
+  stageTitleRef.value?.blur()
+}
 </script>

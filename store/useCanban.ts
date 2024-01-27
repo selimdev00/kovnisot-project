@@ -17,9 +17,20 @@ export const useCanbanStore = defineStore('canban', () => {
     useNuxtApp().$toast.info('Stage removed')
   }
 
+  const updateStageTitle = (id: number, title: string) => {
+    const stage = stages.value.find((stage) => stage.id === id)
+
+    if (stage) {
+      stage.title = title
+
+      useNuxtApp().$toast.info('Stage updated')
+    }
+  }
+
   return {
     stages,
     addStage,
     removeStage,
+    updateStageTitle,
   }
 })
