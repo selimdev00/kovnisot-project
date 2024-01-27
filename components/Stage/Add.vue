@@ -36,15 +36,15 @@
           :error="errorMessage"
         />
 
-        <FormButton type="submit">
+        <FormButton type="submit" variant="primary">
           Add stage
           <IconPlusCircle />
         </FormButton>
       </form>
 
-      <button
+      <FormButton
         v-else
-        class="flex items-center justify-between gap-2 p-4 border border-gray-300 rounded text-gray-400 hover:text-blue-400 hover:border-blue-400 transition bg-white"
+        variant="secondary"
         @mouseover="hovering = true"
         @mouseleave="hovering = false"
         @click="adding = true"
@@ -54,7 +54,7 @@
         <span>
           <IconPlusCircle />
         </span>
-      </button>
+      </FormButton>
     </transition>
   </div>
 </template>
@@ -82,6 +82,7 @@ const addStage = () => {
       stageName.value = ''
 
       adding.value = false
+      hovering.value = false
     }, 300)
   }
 }

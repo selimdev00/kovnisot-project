@@ -11,8 +11,15 @@ export const useCanbanStore = defineStore('canban', () => {
     })
   }
 
+  const removeStage = (id: number) => {
+    stages.value = stages.value.filter((stage) => stage.id !== id)
+
+    useNuxtApp().$toast.info('Stage removed')
+  }
+
   return {
     stages,
     addStage,
+    removeStage,
   }
 })
