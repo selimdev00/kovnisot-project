@@ -5,8 +5,6 @@
     </h1>
 
     <div class="flex gap-4 py-4 flex-1 overflow-y-hidden overflow-x-auto">
-      <StageAdd />
-
       <TransitionGroup tag="ul" class="flex gap-4">
         <StageColumn
           v-for="stage in canbanStore.stages"
@@ -14,6 +12,8 @@
           :stage="stage"
         />
       </TransitionGroup>
+
+      <StageAdd />
     </div>
   </div>
 </template>
