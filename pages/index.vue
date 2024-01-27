@@ -4,16 +4,18 @@
       Kanban System
     </h1>
 
-    <div class="flex gap-4 py-4 flex-1 overflow-y-hidden overflow-x-auto">
-      <TransitionGroup tag="ul" class="flex gap-4">
+    <div
+      class="flex gap-4 py-4 flex-1 overflow-y-hidden overflow-x-auto transition-all"
+    >
+      <TransitionGroup name="list" tag="ul" class="flex gap-4">
         <StageColumn
           v-for="stage in canbanStore.stages"
           :key="stage.id"
           :stage="stage"
         />
-      </TransitionGroup>
 
-      <StageAdd />
+        <StageAdd />
+      </TransitionGroup>
     </div>
   </div>
 </template>
@@ -21,4 +23,3 @@
 <script setup lang="ts">
 const canbanStore = useCanbanStore()
 </script>
-<style></style>
