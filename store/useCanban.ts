@@ -48,7 +48,7 @@ export const useCanbanStore = defineStore('canban', () => {
     }
   }
 
-  const removeTask = (stageId: number, taskId: number) => {
+  const removeTask = (stageId: number, taskId: string) => {
     const stage = stages.value.find((stage) => stage.id === stageId)
 
     if (stage) {
@@ -71,6 +71,41 @@ export const useCanbanStore = defineStore('canban', () => {
     return stages.value.find((stage) => stage.id === stageId)
   }
 
+  const removeTaskFromStage = (stageId: number, taskId: string) => {
+    const stage = stages.value.find((stage) => stage.id === stageId)
+
+    if (stage) {
+      stage.tasks = stage.tasks.filter((task) => task.id !== taskId)
+    }
+  }
+
+  const updateTask = (payload: Task) => {
+    const task = findTask(payload.id)
+
+    if (task) {
+      task.title = payload.title
+      task.description = payload.description
+
+      if (task.stage_id !== parseInt(payload.stage_id)) {
+        const sourceStage = findStage(task.stage_id)
+        const destinationStage = findStage(parseInt(payload.stage_id))
+
+        console.log(sourceStage, destinationStage)
+
+        if (sourceStage && destinationStage) {
+          removeTaskFromStage(sourceStage.id, task.id)
+          destinationStage.tasks.push(task)
+
+          task.stage_id = payload.stage_id
+        }
+      }
+
+      useNuxtApp().$toast.info('Task updated')
+    } else {
+      useNuxtApp().$toast.error('Task not found')
+    }
+  }
+
   return {
     stages,
     addStage,
@@ -80,5 +115,6 @@ export const useCanbanStore = defineStore('canban', () => {
     removeTask,
     findTask,
     findStage,
+    updateTask,
   }
 })

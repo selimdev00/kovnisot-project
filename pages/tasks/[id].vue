@@ -17,7 +17,7 @@
       <h1 class="text-3xl font-bold">{{ task.title }}</h1>
     </div>
 
-    <div class="grid grid-cols-[3fr_10fr]">
+    <div class="w-full grid grid-cols-[3fr_10fr] gap-4">
       <div
         class="p-4 bg-white rounded transition border border-gray-300 hover:border-blue-400 cursor-pointer relative"
       >
@@ -55,6 +55,39 @@
           }}</span>
         </div>
       </div>
+
+      <div
+        class="p-4 bg-white rounded transition border border-gray-300 hover:border-blue-400 cursor-pointer relative w-full"
+      >
+        <form class="flex flex-col gap-2" @submit.prevent="updateTask">
+          <FormInput
+            id="title"
+            v-model="task.title"
+            type="text"
+            label="Title"
+          />
+
+          <FormInput
+            id="description"
+            v-model="task.description"
+            type="textarea"
+            label="Description"
+          />
+
+          <FormSelect
+            id="stage_id"
+            v-model="task.stage_id"
+            label="Stage"
+            :options="
+              canbanStore.stages.map((stage) => {
+                return { key: stage.title, value: stage.id }
+              })
+            "
+          />
+
+          <FormButton class="w-fit self-end" type="submit"> Save </FormButton>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -65,6 +98,16 @@ import { DateTime } from 'luxon'
 const canbanStore = useCanbanStore()
 const route = useRoute()
 
-const task = canbanStore.findTask(route.params.id as string)
+const task = Object.assign({}, canbanStore.findTask(route.params.id as string))
+if (!task) {
+  throw createError({ statusCode: 404 })
+}
+
 const stage = canbanStore.findStage(task.stage_id)
+
+const updateTask = () => {
+  canbanStore.updateTask(task)
+
+  return navigateTo('/')
+}
 </script>
