@@ -22,6 +22,7 @@
     >
       <FormInput
         id="title"
+        ref="titleRef"
         v-model="payload.title"
         label="Name"
         placeholder="Task name"
@@ -91,4 +92,10 @@ const addTask = () => {
 
   emit('close')
 }
+
+const titleRef = ref<HTMLInputElement | null>(null)
+
+watch(titleRef, () => {
+  if (titleRef.value?.input) titleRef.value.input.focus()
+})
 </script>

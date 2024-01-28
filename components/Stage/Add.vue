@@ -30,6 +30,7 @@
 
         <FormInput
           id="stageName"
+          ref="stageNameRef"
           v-model="stageName"
           label="Stage name"
           placeholder="Stage name"
@@ -47,7 +48,7 @@
         variant="secondary"
         @mouseover="hovering = true"
         @mouseleave="hovering = false"
-        @click="adding = true"
+        @click="turnAddingModeOn"
       >
         <span>Add stage</span>
 
@@ -68,6 +69,8 @@ const adding = ref<boolean>(false)
 const stageName = ref<string>('')
 const errorMessage = ref<string>('')
 
+const stageNameRef = ref<HTMLInputElement | null>(null)
+
 const addStage = () => {
   errorMessage.value = ''
 
@@ -86,4 +89,14 @@ const addStage = () => {
     }, 300)
   }
 }
+
+const turnAddingModeOn = () => {
+  adding.value = true
+
+  stageNameRef.value?.focus()
+}
+
+watch(stageNameRef, () => {
+  if (stageNameRef.value?.input) stageNameRef.value.input.focus()
+})
 </script>

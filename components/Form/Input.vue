@@ -16,6 +16,7 @@
     <input
       v-else
       :id="id"
+      ref="input"
       :value="modelValue"
       :type="type"
       class="w-full py-2 px-4 border border-gray-300 rounded hover:text-blue-400 hover:border-blue-400 transition bg-white focus:outline-none focus:border-blue-400"
@@ -44,6 +45,10 @@ withDefaults(
     type: 'text',
   },
 )
+
+const input = ref<HTMLInputElement | null>(null)
+
+defineExpose({ input })
 
 const emit = defineEmits(['update:modelValue'])
 </script>
