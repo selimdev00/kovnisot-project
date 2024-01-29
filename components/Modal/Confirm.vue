@@ -11,16 +11,24 @@
       >
         <div class="flex flex-col items-center gap-5">
           <div class="flex flex-col gap-1 items-center">
-            <h2 class="text-xl font-bold">{{ title }}</h2>
+            <h2 class="text-xl font-bold">
+              {{ title }}
+            </h2>
 
             <p>{{ text }}</p>
           </div>
 
           <div class="flex gap-4">
-            <FormButton ref="confirmButtonRef" @click="confirm">
+            <FormButton
+              ref="confirmButtonRef"
+              @click="confirm"
+            >
               {{ yes }}
             </FormButton>
-            <FormButton variant="danger" @click="cancel">
+            <FormButton
+              variant="danger"
+              @click="cancel"
+            >
               {{ no }}
             </FormButton>
           </div>
@@ -60,6 +68,6 @@ const confirm = () => {
 const confirmButtonRef = ref<InstanceType<typeof FormButton> | null>(null)
 
 watch(confirmButtonRef, () => {
-  if (props.isRevealed) confirmButtonRef.value?.button.focus()
+  if (props.isRevealed) confirmButtonRef.value?.button?.focus()
 })
 </script>

@@ -1,4 +1,5 @@
 import type {
+  CreateTaskDTO,
   Stage,
   StageId,
   Task,
@@ -7,6 +8,8 @@ import type {
 } from '~/types/Canban'
 
 import { useStorage } from '@vueuse/core'
+import generateUniqueId from '~/helpers/generateUniqueId'
+import currentDateAsISOString from '~/helpers/currentDateAsISOString'
 
 export const useCanbanStore = defineStore('canban', () => {
   const stages = useStorage<Stage[]>('stages', [], localStorage, {
@@ -18,11 +21,11 @@ export const useCanbanStore = defineStore('canban', () => {
 
   const addStage = (title: string) => {
     stages.value.push({
-      id: stages.value.length + 1,
+      id: generateUniqueId('stage-'),
       title,
       tasks: [],
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
+      created_at: currentDateAsISOString(),
+      updated_at: currentDateAsISOString(),
     })
   }
 
@@ -40,25 +43,22 @@ export const useCanbanStore = defineStore('canban', () => {
 
       stage.title = title
 
-      stage.updated_at = new Date().toISOString()
+      stage.updated_at = currentDateAsISOString()
 
       useNuxtApp().$toast.info('Stage updated')
     }
   }
 
-  const addTask = (stageId: StageId, task: UpdateTaskDTO) => {
+  const addTask = (stageId: StageId, task: CreateTaskDTO) => {
     const stage = stages.value.find((stage) => stage.id === stageId)
 
-    task.created_at = new Date().toISOString()
-    task.updated_at = new Date().toISOString()
-    task.stage_id = stageId
-
     if (stage) {
-      stage.updated_at = new Date().toISOString()
-
       stage.tasks.push({
         ...task,
-        id: stage.title + stage.tasks.length + 1,
+        id: generateUniqueId('task-'),
+        created_at: currentDateAsISOString(),
+        updated_at: currentDateAsISOString(),
+        stage_id: stageId,
       } as Task)
     }
   }
@@ -71,7 +71,7 @@ export const useCanbanStore = defineStore('canban', () => {
 
       useNuxtApp().$toast.info('Task removed')
 
-      stage.updated_at = new Date().toISOString()
+      stage.updated_at = currentDateAsISOString()
     }
   }
 
@@ -79,8 +79,8 @@ export const useCanbanStore = defineStore('canban', () => {
     return tasks.value.find((task) => task.id === taskId)
   }
 
-  const findStage = (stageId: StageId) => {
-    return stages.value.find((stage) => stage.id === stageId)
+  const findStage = (stageId: StageId): Stage | null => {
+    return stages.value.find((stage) => stage.id === stageId) || null
   }
 
   const removeTaskFromStage = (stageId: StageId, taskId: TaskId) => {
@@ -110,6 +110,8 @@ export const useCanbanStore = defineStore('canban', () => {
         }
       }
 
+      task.updated_at = currentDateAsISOString()
+
       useNuxtApp().$toast.info('Task updated')
     } else {
       useNuxtApp().$toast.error('Task not found')
@@ -130,7 +132,7 @@ export const useCanbanStore = defineStore('canban', () => {
     if (stage) {
       stage.tasks = tasks
 
-      stage.updated_at = new Date().toISOString()
+      stage.updated_at = currentDateAsISOString()
     }
   }
 

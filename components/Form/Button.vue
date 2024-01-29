@@ -1,5 +1,8 @@
 <template>
-  <button ref="button" :class="classes[variant || 'primary']">
+  <button
+    ref="button"
+    :class="classes[variant || 'primary']"
+  >
     <slot />
   </button>
 </template>

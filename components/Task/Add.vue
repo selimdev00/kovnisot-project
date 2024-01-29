@@ -9,11 +9,12 @@
 
         <span
           class="transition scale-0 group-hover:scale-100 absolute bg-blue-200 text-white w-[30px] h-[30px] rounded-full z-0"
-        >
-        </span>
+        />
       </button>
 
-      <h3 class="text-lg font-bold">Add stage</h3>
+      <h3 class="text-lg font-bold">
+        Add stage
+      </h3>
     </div>
 
     <form
@@ -39,7 +40,10 @@
         :error="errors.description"
       />
 
-      <FormButton type="submit" variant="primary">
+      <FormButton
+        type="submit"
+        variant="primary"
+      >
         <IconPlusCircle /> Add task
       </FormButton>
     </form>

@@ -21,8 +21,7 @@
 
             <span
               class="transition scale-0 group-hover:scale-100 absolute bg-blue-200 text-white w-[30px] h-[30px] rounded-full z-0"
-            >
-            </span>
+            />
           </button>
 
           <h3 class="text-lg font-bold">Add stage</h3>
@@ -45,6 +44,7 @@
 
       <FormButton
         v-else
+        id="addStage"
         variant="secondary"
         @mouseover="hovering = true"
         @mouseleave="hovering = false"

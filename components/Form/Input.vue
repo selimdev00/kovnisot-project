@@ -1,6 +1,9 @@
 <template>
   <div class="flex flex-col gap-1 w-full">
-    <label :for="id" class="text-sm text-gray-700">{{ label }}</label>
+    <label
+      :for="id"
+      class="text-sm text-gray-700"
+    >{{ label }}</label>
 
     <textarea
       v-if="type === 'textarea'"
@@ -10,8 +13,8 @@
       class="w-full py-2 px-4 border border-gray-300 rounded hover:text-blue-400 hover:border-blue-400 transition bg-white focus:outline-blue-400 focus:border-blue-400"
       :class="{ 'border-red-400': error, [inputClasses]: true }"
       :placeholder="placeholder"
-      @input="emit('update:modelValue', $event.target.value)"
-    ></textarea>
+      @input="handleInput"
+    />
 
     <input
       v-else
@@ -21,8 +24,8 @@
       :type="type"
       :class="{ 'border-red-400': error, [inputClasses]: true }"
       :placeholder="placeholder"
-      @input="emit('update:modelValue', $event.target.value)"
-    />
+      @input="handleInput"
+    >
 
     <div class="flex justify-end">
       <span class="text-xs text-red-400">{{ error }}</span>
@@ -42,6 +45,8 @@ withDefaults(
   }>(),
   {
     type: 'text',
+    placeholder: '',
+    error: '',
   },
 )
 
@@ -53,4 +58,8 @@ const emit = defineEmits(['update:modelValue'])
 
 const inputClasses =
   'w-full py-2 px-4 border border-gray-300 rounded hover:text-blue-400 hover:border-blue-400 transition bg-white focus:outline-blue-400 focus:border-blue-400'
+
+const handleInput = (event: Event) => {
+  emit('update:modelValue', (event.target as HTMLInputElement).value)
+}
 </script>

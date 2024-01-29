@@ -18,4 +18,7 @@ export default defineNuxtConfig({
     pageTransition: { name: 'fade', mode: 'out-in' },
   },
   ssr: false,
+  typescript: {
+    typeCheck: true,
+  },
 })

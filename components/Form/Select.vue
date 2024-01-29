@@ -6,7 +6,7 @@
       class="w-full py-2 px-4 border border-gray-300 rounded hover:text-blue-400 hover:border-blue-400 transition bg-white focus:outline-blue-400 focus:border-blue-400"
       :class="{ 'border-red-400': error }"
       :placeholder="placeholder"
-      @input="emit('update:modelValue', $event.target.value)"
+      @input="handleInput"
     >
       <option
         v-for="option in options"
@@ -30,11 +30,15 @@ import type { Option } from '~/types/FormSelect'
 defineProps<{
   id: string
   label: string
-  modelValue: string
+  modelValue: string | number
   placeholder?: string
   error?: string
   options: Option[]
 }>()
 
 const emit = defineEmits(['update:modelValue'])
+
+const handleInput = (event: Event) => {
+  emit('update:modelValue', (event.target as HTMLInputElement).value)
+}
 </script>

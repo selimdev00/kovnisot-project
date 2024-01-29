@@ -7,7 +7,11 @@
     <div
       class="flex gap-4 py-4 flex-1 overflow-y-hidden overflow-x-auto transition-all"
     >
-      <TransitionGroup name="list" tag="ul" class="flex gap-4">
+      <TransitionGroup
+        name="list"
+        tag="ul"
+        class="flex gap-4"
+      >
         <StageColumn
           v-for="stage in canbanStore.stages"
           :key="stage.id"

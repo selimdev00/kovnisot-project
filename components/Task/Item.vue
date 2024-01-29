@@ -4,9 +4,14 @@
       class="p-4 bg-white rounded transition border border-gray-300 hover:border-blue-400 cursor-pointer relative outline-blue-400 focus:text-blue-600 hover:text-blue-600 w-full text-left"
       @click="goToTask"
     >
-      <h3 class="text font-bold">{{ task.title }}</h3>
+      <h3 class="text font-bold">
+        {{ task.title }}
+      </h3>
 
-      <p v-if="task.description" class="text-gray-500 text-sm">
+      <p
+        v-if="task.description"
+        class="text-gray-500 text-sm"
+      >
         {{ task.description }}
       </p>
 
