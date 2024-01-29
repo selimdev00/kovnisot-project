@@ -25,13 +25,15 @@
 </template>
 
 <script setup lang="ts">
+import type { Option } from '~/types/FormSelect'
+
 defineProps<{
   id: string
   label: string
   modelValue: string
   placeholder: string
   error?: string
-  options: { key: string; value: string | number }[]
+  options: Option[]
 }>()
 
 const emit = defineEmits(['update:modelValue'])

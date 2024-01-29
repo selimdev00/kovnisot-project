@@ -47,18 +47,18 @@
 </template>
 
 <script setup lang="ts">
-import type { Task } from '~/types/Canban'
+import type { StageId, CreateTaskDTO } from '~/types/Canban'
+import { FormInput } from '#components'
 
 const props = defineProps<{
-  stageId: number
+  stageId: StageId
 }>()
 
 const canbanStore = useCanbanStore()
 
 const emit = defineEmits(['close'])
 
-const payload = ref<Task>({
-  id: 0,
+const payload = ref<CreateTaskDTO>({
   title: '',
   description: '',
 })
@@ -85,7 +85,6 @@ const addTask = () => {
   canbanStore.addTask(props.stageId, payload.value)
 
   payload.value = {
-    id: 0,
     title: '',
     description: '',
   }
@@ -93,7 +92,7 @@ const addTask = () => {
   emit('close')
 }
 
-const titleRef = ref<HTMLInputElement | null>(null)
+const titleRef = ref<typeof FormInput | null>(null)
 
 watch(titleRef, () => {
   if (titleRef.value?.input) titleRef.value.input.focus()

@@ -1,7 +1,7 @@
 <template>
   <div class="p-4 flex flex-col items-start gap-4">
     <div class="flex items-center gap-4">
-      <nuxt-link to="/">
+      <nuxt-link to="/" class="p-2 outline-blue-400">
         <div
           class="group inline-block flex justify-center items-center cursor-pointer"
         >
@@ -81,11 +81,13 @@
             :options="
               canbanStore.stages.map((stage) => {
                 return { key: stage.title, value: stage.id }
-              })
+              }) as Option[]
             "
           />
 
-          <FormButton class="w-fit self-end" type="submit"> Save </FormButton>
+          <div class="w-fit self-end">
+            <FormButton type="submit"> Save</FormButton>
+          </div>
         </form>
       </div>
     </div>
@@ -94,19 +96,25 @@
 
 <script setup lang="ts">
 import { DateTime } from 'luxon'
+import type { Option } from '~/types/FormSelect'
+import type { UpdateTaskDTO } from '~/types/Canban'
 
 const canbanStore = useCanbanStore()
 const route = useRoute()
 
-const task = Object.assign({}, canbanStore.findTask(route.params.id as string))
-if (!task) {
+const task = ref<UpdateTaskDTO>(
+  Object.assign({}, canbanStore.findTask(route.params.id as string)),
+)
+if (!task.value) {
   throw createError({ statusCode: 404 })
 }
 
-const stage = canbanStore.findStage(task.stage_id)
+const stage = canbanStore.findStage(task.value.stage_id)
 
 const updateTask = () => {
-  canbanStore.updateTask(task)
+  task.value.stage_id = Number(task.value.stage_id)
+
+  canbanStore.updateTask(task.value)
 
   return navigateTo('/')
 }

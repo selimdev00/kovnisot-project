@@ -31,7 +31,7 @@
         <FormInput
           id="stageName"
           ref="stageNameRef"
-          v-model="stageName"
+          v-model="payload.title"
           label="Stage name"
           placeholder="Stage name"
           :error="errorMessage"
@@ -61,28 +61,34 @@
 </template>
 
 <script setup lang="ts">
+import type { CreateStageDTO } from '~/types/Canban'
+import { FormInput } from '#components'
+
 const canbanStore = useCanbanStore()
 
 const hovering = ref<boolean>(false)
 const adding = ref<boolean>(false)
 
-const stageName = ref<string>('')
+const payload = ref<CreateStageDTO>({
+  title: '',
+})
+
 const errorMessage = ref<string>('')
 
-const stageNameRef = ref<HTMLInputElement | null>(null)
+const stageNameRef = ref<typeof FormInput | null>(null)
 
 const addStage = () => {
   errorMessage.value = ''
 
-  if (!stageName.value) {
+  if (!payload.value.title) {
     errorMessage.value = 'Stage name is required'
   } else {
     setTimeout(() => {
-      canbanStore.addStage(stageName.value)
+      canbanStore.addStage(payload.value.title)
 
       useNuxtApp().$toast.info('Stage added')
 
-      stageName.value = ''
+      payload.value.title = ''
 
       adding.value = false
       hovering.value = false

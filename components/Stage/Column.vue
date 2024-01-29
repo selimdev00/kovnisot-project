@@ -61,18 +61,24 @@
       class="p-4 flex-1 flex flex-col items-center justify-center bg-gray-50"
     >
       <transition name="fade" mode="out-in">
-        <ul
+        <div
           v-if="!addingTask && stage.tasks.length"
           class="h-full flex flex-col gap-2 w-full"
         >
-          <TaskItem
-            v-for="task in stage.tasks"
-            :key="task.id"
-            :task="task"
-            :stage-id="props.stage.id"
-          />
+          <draggable
+            v-model="stageTasks"
+            tag="ul"
+            item-key="id"
+            group="tasks"
+            @start="drag = true"
+            @end="drag = false"
+          >
+            <template #item="{ element }">
+              <TaskItem :task="element" :stage-id="props.stage.id" />
+            </template>
+          </draggable>
 
-          <li class="mx-auto">
+          <div class="mx-auto">
             <FormButton variant="secondary" @click="turnAddingTaskOn">
               <span>Add task</span>
 
@@ -80,8 +86,8 @@
                 <IconPlusCircle />
               </span>
             </FormButton>
-          </li>
-        </ul>
+          </div>
+        </div>
 
         <TaskAdd
           v-else-if="addingTask"
@@ -121,6 +127,8 @@ import { DateTime } from 'luxon'
 import type { Stage } from '~/types/Canban'
 import { useConfirmDialog } from '@vueuse/core'
 
+import draggable from 'vuedraggable'
+
 const { isRevealed, reveal, confirm, cancel, onConfirm } = useConfirmDialog()
 
 const removeStage = () => {
@@ -153,4 +161,13 @@ const turnAddingTaskOn = () => {
 const turnAddingTaskOff = () => {
   addingTask.value = false
 }
+
+const stageTasks = computed({
+  get: () => props.stage.tasks,
+  set: (value) => {
+    canbanStore.updateStageTasks(props.stage.id, value)
+  },
+})
+
+const drag = ref<boolean>(false)
 </script>
