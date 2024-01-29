@@ -36,7 +36,7 @@ withDefaults(
     id: string
     label: string
     modelValue: string
-    placeholder: string
+    placeholder?: string
     type?: 'text' | 'textarea'
     error?: string
   }>(),

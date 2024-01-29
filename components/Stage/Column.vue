@@ -70,6 +70,7 @@
             tag="ul"
             item-key="id"
             group="tasks"
+            class="flex flex-col gap-2 min-h-[100px]"
             @start="drag = true"
             @end="drag = false"
           >

@@ -105,8 +105,8 @@ const route = useRoute()
 const task = ref<UpdateTaskDTO>(
   Object.assign({}, canbanStore.findTask(route.params.id as string)),
 )
-if (!task.value) {
-  throw createError({ statusCode: 404 })
+if (!task.value.id) {
+  throw createError({ statusCode: 404, statusMessage: 'Task not found' })
 }
 
 const stage = canbanStore.findStage(task.value.stage_id)
