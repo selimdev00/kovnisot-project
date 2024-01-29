@@ -31,7 +31,7 @@ defineProps<{
   id: string
   label: string
   modelValue: string
-  placeholder: string
+  placeholder?: string
   error?: string
   options: Option[]
 }>()

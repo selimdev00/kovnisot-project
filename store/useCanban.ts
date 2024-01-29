@@ -89,8 +89,9 @@ export const useCanbanStore = defineStore('canban', () => {
     const task = findTask(payload.id)
 
     if (task) {
-      task.title = payload.title
-      task.description = payload.description
+      if (task.title !== payload.title) task.title = payload.title
+      if (task.description !== payload.description)
+        task.description = payload.description
 
       if (task.stage_id !== payload.stage_id) {
         const sourceStage = findStage(task.stage_id)
@@ -99,7 +100,6 @@ export const useCanbanStore = defineStore('canban', () => {
         if (sourceStage && destinationStage) {
           removeTaskFromStage(sourceStage.id, task.id)
           destinationStage.tasks.push(task)
-
           task.stage_id = payload.stage_id
         }
       }
@@ -110,6 +110,14 @@ export const useCanbanStore = defineStore('canban', () => {
     }
   }
 
+  const updateTaskOnMove = (payload: UpdateTaskDTO) => {
+    const task = findTask(payload.id)
+
+    if (task) {
+      task.stage_id = payload.stage_id
+    }
+  }
+
   const updateStageTasks = (stageId: StageId, tasks: Task[]) => {
     const stage = findStage(stageId)
 
@@ -117,8 +125,6 @@ export const useCanbanStore = defineStore('canban', () => {
       stage.tasks = tasks
 
       stage.updated_at = new Date().toISOString()
-
-      useNuxtApp().$toast.info('Stage tasks updated')
     }
   }
 
@@ -134,5 +140,6 @@ export const useCanbanStore = defineStore('canban', () => {
     findStage,
     updateTask,
     updateStageTasks,
+    updateTaskOnMove,
   }
 })

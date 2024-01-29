@@ -57,36 +57,44 @@
       </div>
     </div>
 
-    <div
-      class="p-4 flex-1 flex flex-col items-center justify-center bg-gray-50"
-    >
+    <div class="p-4 flex-1 flex flex-col gap-4 items-center bg-gray-50">
       <transition name="fade" mode="out-in">
-        <div
-          v-if="!addingTask && stage.tasks.length"
-          class="h-full flex flex-col gap-2 w-full"
-        >
-          <draggable
-            v-model="stageTasks"
-            tag="ul"
-            item-key="id"
-            group="tasks"
-            class="flex flex-col gap-2 min-h-[100px]"
-            @start="drag = true"
-            @end="drag = false"
-          >
-            <template #item="{ element }">
-              <TaskItem :task="element" :stage-id="props.stage.id" />
-            </template>
-          </draggable>
+        <div v-if="!addingTask" class="w-full flex flex-col gap-4">
+          <div class="w-full min-h-[80px] relative">
+            <draggable
+              v-model="stageTasks"
+              item-key="id"
+              group="tasks"
+              class="flex flex-col gap-2 w-full h-full"
+              @change="onTaskMove"
+            >
+              <template #item="{ element }">
+                <TaskItem :task="element" :stage-id="props.stage.id" />
+              </template>
+            </draggable>
 
-          <div class="mx-auto">
-            <FormButton variant="secondary" @click="turnAddingTaskOn">
-              <span>Add task</span>
+            <transition name="fade"
+              ><span
+                v-if="stageTasks.length === 0"
+                class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-500 text-sm"
+              >
+                No tasks
+              </span></transition
+            >
+          </div>
 
-              <span>
-                <IconPlusCircle />
-              </span>
-            </FormButton>
+          <div class="flex flex-col gap-4">
+            <div class="h-full flex flex-col gap-2 w-full">
+              <div class="mx-auto">
+                <FormButton variant="secondary" @click="turnAddingTaskOn">
+                  <span>Add task</span>
+
+                  <span>
+                    <IconPlusCircle />
+                  </span>
+                </FormButton>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -95,18 +103,6 @@
           :stage-id="stage.id"
           @close="turnAddingTaskOff"
         />
-
-        <div v-else class="text-gray-400 text-center flex flex-col gap-4">
-          <span>No tasks</span>
-
-          <FormButton variant="secondary" @click="turnAddingTaskOn">
-            <span>Add task</span>
-
-            <span>
-              <IconPlusCircle />
-            </span>
-          </FormButton>
-        </div>
       </transition>
     </div>
 
@@ -170,5 +166,11 @@ const stageTasks = computed({
   },
 })
 
-const drag = ref<boolean>(false)
+const onTaskMove = (e) => {
+  const added = e.added
+
+  if (!added) return
+
+  canbanStore.updateTaskOnMove({ ...added.element, stage_id: props.stage.id })
+}
 </script>
