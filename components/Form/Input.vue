@@ -7,8 +7,8 @@
       :id="id"
       :name="id"
       :value="modelValue"
-      class="w-full py-2 px-4 border border-gray-300 rounded hover:text-blue-400 hover:border-blue-400 transition bg-white focus:outline-none focus:border-blue-400"
-      :class="{ 'border-red-400': error }"
+      class="w-full py-2 px-4 border border-gray-300 rounded hover:text-blue-400 hover:border-blue-400 transition bg-white focus:outline-blue-400 focus:border-blue-400"
+      :class="{ 'border-red-400': error, [inputClasses]: true }"
       :placeholder="placeholder"
       @input="emit('update:modelValue', $event.target.value)"
     ></textarea>
@@ -19,8 +19,7 @@
       ref="input"
       :value="modelValue"
       :type="type"
-      class="w-full py-2 px-4 border border-gray-300 rounded hover:text-blue-400 hover:border-blue-400 transition bg-white focus:outline-none focus:border-blue-400"
-      :class="{ 'border-red-400': error }"
+      :class="{ 'border-red-400': error, [inputClasses]: true }"
       :placeholder="placeholder"
       @input="emit('update:modelValue', $event.target.value)"
     />
@@ -51,4 +50,7 @@ const input = ref<HTMLInputElement | null>(null)
 defineExpose({ input })
 
 const emit = defineEmits(['update:modelValue'])
+
+const inputClasses =
+  'w-full py-2 px-4 border border-gray-300 rounded hover:text-blue-400 hover:border-blue-400 transition bg-white focus:outline-blue-400 focus:border-blue-400'
 </script>

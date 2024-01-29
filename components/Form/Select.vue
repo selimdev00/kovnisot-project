@@ -3,7 +3,7 @@
     <select
       :id="id"
       :value="modelValue"
-      class="w-full py-2 px-4 border border-gray-300 rounded hover:text-blue-400 hover:border-blue-400 transition bg-white focus:outline-none focus:border-blue-400"
+      class="w-full py-2 px-4 border border-gray-300 rounded hover:text-blue-400 hover:border-blue-400 transition bg-white focus:outline-blue-400 focus:border-blue-400"
       :class="{ 'border-red-400': error }"
       :placeholder="placeholder"
       @input="emit('update:modelValue', $event.target.value)"

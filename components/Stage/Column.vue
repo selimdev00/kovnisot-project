@@ -35,25 +35,25 @@
             ref="stageTitleRef"
             v-model="stageTitle"
             type="text"
-            class="bg-transparent focus:outline-none text-xl font-bold cursor-pointer"
+            class="bg-transparent focus:outline-blue-400 text-xl font-bold cursor-pointer"
           />
         </form>
       </div>
 
       <div class="flex gap-2">
-        <span
-          class="cursor-pointer text-gray-400 transition hover:text-red-600"
+        <button
+          class="cursor-pointer text-gray-400 transition hover:text-red-600 p-1 outline-red-600 focus:text-red-600"
           @click="removeStage"
         >
           <IconTrash />
-        </span>
+        </button>
 
-        <span
-          class="cursor-pointer text-gray-400 transition hover:text-blue-600"
+        <button
+          class="cursor-pointer text-gray-400 transition hover:text-blue-600 p-1 outline-blue-400 focus:text-blue-600"
           @click="stageTitleRef?.focus()"
         >
           <IconPencilOutline />
-        </span>
+        </button>
       </div>
     </div>
 
@@ -104,35 +104,13 @@
     </div>
 
     <teleport to="body">
-      <transition name="fade">
-        <div
-          v-if="isRevealed"
-          class="fixed inset-0 z-50 w-full h-full bg-black/50 flex items-center justify-center"
-        >
-          <div
-            class="flex items-center justify-center w-full p-4 gap-4 bg-white rounded shadow max-w-[400px] mx-auto overflow-auto relative transition duration-300"
-          >
-            <div class="flex flex-col items-center gap-5">
-              <div class="flex flex-col gap-1 items-center">
-                <h2 class="text-xl font-bold">
-                  Are you sure to delete this stage?
-                </h2>
-
-                <p>Deleting stage will remove all tasks in this stage</p>
-              </div>
-
-              <div class="flex gap-4">
-                <FormButton @click="confirm">Yes</FormButton>
-                <FormButton
-                  class="!text-red-600 bg-white border-red-600 hover:bg-red-600 hover:!text-white"
-                  @click="cancel"
-                  >Cancel</FormButton
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-      </transition>
+      <ModalConfirm
+        :is-revealed="isRevealed"
+        title="Are you sure to delete this stage?"
+        text="Deleting stage will remove all tasks in this stage"
+        @confirm="confirm"
+        @cancel="cancel"
+      />
     </teleport>
   </div>
 </template>

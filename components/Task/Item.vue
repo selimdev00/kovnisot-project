@@ -8,20 +8,20 @@
       {{ task.description }}
     </p>
 
-    <div class="flex gap-2 absolute right-4 top-4">
-      <span
-        class="cursor-pointer text-gray-400 transition hover:text-red-600"
+    <div class="flex absolute right-2 top-2">
+      <button
+        class="cursor-pointer text-gray-500 transition hover:text-red-600 outline-red-400 p-1 focus:text-red-600"
         @click="reveal"
       >
         <IconTrash />
-      </span>
+      </button>
 
-      <nuxt-link :to="`/tasks/${task.id}`"
-        ><span
-          class="cursor-pointer text-gray-400 transition hover:text-blue-600"
-        >
-          <IconPencilOutline /> </span
-      ></nuxt-link>
+      <nuxt-link
+        :to="`/tasks/${task.id}`"
+        class="p-1 outline-blue-400 focus:text-blue-600 hover:text-blue-600 text-gray-500 transition"
+      >
+        <IconPencilOutline />
+      </nuxt-link>
     </div>
 
     <teleport to="body">

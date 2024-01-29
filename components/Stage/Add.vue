@@ -13,8 +13,8 @@
         @submit.prevent="addStage"
       >
         <div class="absolute top-0 flex justify-center items-center w-full">
-          <div
-            class="absolute left-0 group inline-block flex items-center justify-center cursor-pointer"
+          <button
+            class="absolute left-0 group inline-block flex items-center justify-center cursor-pointer outline-blue-400 p-2 focus:text-blue-400"
             @click="adding = false"
           >
             <IconArrowBack class="z-10" />
@@ -23,7 +23,7 @@
               class="transition scale-0 group-hover:scale-100 absolute bg-blue-200 text-white w-[30px] h-[30px] rounded-full z-0"
             >
             </span>
-          </div>
+          </button>
 
           <h3 class="text-lg font-bold">Add stage</h3>
         </div>
