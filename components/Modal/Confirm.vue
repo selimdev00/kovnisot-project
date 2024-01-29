@@ -20,10 +20,7 @@
             <FormButton ref="confirmButtonRef" @click="confirm">
               {{ yes }}
             </FormButton>
-            <FormButton
-              class="!text-red-600 bg-white border-red-600 hover:bg-red-600 hover:!text-white"
-              @click="cancel"
-            >
+            <FormButton variant="danger" @click="cancel">
               {{ no }}
             </FormButton>
           </div>

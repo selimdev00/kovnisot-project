@@ -36,6 +36,7 @@
             v-model="stageTitle"
             type="text"
             class="bg-transparent focus:outline-blue-400 text-xl font-bold cursor-pointer"
+            @blur="saveStage"
           />
         </form>
       </div>

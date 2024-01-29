@@ -6,8 +6,12 @@ import type {
   UpdateTaskDTO,
 } from '~/types/Canban'
 
+import { useStorage } from '@vueuse/core'
+
 export const useCanbanStore = defineStore('canban', () => {
-  const stages = ref<Stage[]>([])
+  const stages = useStorage<Stage[]>('stages', [], localStorage, {
+    mergeDefaults: true,
+  })
   const tasks = computed<Task[]>(() => {
     return stages.value.map((stage) => stage.tasks).flat()
   })
@@ -32,6 +36,8 @@ export const useCanbanStore = defineStore('canban', () => {
     const stage = stages.value.find((stage) => stage.id === id)
 
     if (stage) {
+      if (stage.title === title) return
+
       stage.title = title
 
       stage.updated_at = new Date().toISOString()

@@ -85,8 +85,10 @@
             "
           />
 
-          <div class="w-fit self-end">
+          <div class="w-fit self-end flex gap-2">
             <FormButton type="submit"> Save</FormButton>
+
+            <FormButton variant="danger"> Delete</FormButton>
           </div>
         </form>
       </div>
@@ -118,4 +120,18 @@ const updateTask = () => {
 
   return navigateTo('/')
 }
+
+const handleGoBack = (e: KeyboardEvent) => {
+  if (e.key === 'Backspace' || e.key === 'Esc') {
+    return navigateTo('/')
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleGoBack)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleGoBack)
+})
 </script>

@@ -13,6 +13,8 @@ const classes = computed<{ [key: string]: string }>(() => {
   return {
     primary:
       'flex items-center justify-center gap-2 py-2 px-4 border bg-blue-400 text-white rounded transition w-full hover:bg-blue-500 focus:outline-blue-400 focus:text-blue-400 focus:border-blue-400 focus:bg-white',
+    danger:
+      'flex items-center justify-center gap-2 py-2 px-4 border border-red-600 bg-white text-red-600 rounded transition w-full hover:bg-red-600 hover:text-white focus:outline-red-600 focus:text-red-600 focus:border-red-600 focus:bg-white',
     secondary:
       'flex items-center justify-between gap-2 p-4 border border-gray-300 rounded text-gray-400 hover:text-blue-400 hover:border-blue-400 transition bg-white focus:outline-blue-400 focus:text-blue-400',
   }

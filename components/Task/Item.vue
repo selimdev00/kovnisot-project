@@ -1,9 +1,10 @@
 <template>
   <li>
-    <nuxt-link
-      :to="`/tasks/${task.id}`"
-      class="p-4 bg-white rounded transition border border-gray-300 hover:border-blue-400 cursor-pointer relative block outline-blue-400 focus:text-blue-600 hover:text-blue-600"
-      ><h3 class="text font-bold">{{ task.title }}</h3>
+    <button
+      class="p-4 bg-white rounded transition border border-gray-300 hover:border-blue-400 cursor-pointer relative outline-blue-400 focus:text-blue-600 hover:text-blue-600 w-full text-left"
+      @click="goToTask"
+    >
+      <h3 class="text font-bold">{{ task.title }}</h3>
 
       <p v-if="task.description" class="text-gray-500 text-sm">
         {{ task.description }}
@@ -12,7 +13,7 @@
       <div class="flex absolute right-2 top-2">
         <button
           class="cursor-pointer text-gray-500 transition hover:text-red-600 outline-red-400 p-1 focus:text-red-600"
-          @click="reveal"
+          @click.stop="reveal"
         >
           <IconTrash />
         </button>
@@ -34,7 +35,7 @@
           @cancel="cancel"
         />
       </teleport>
-    </nuxt-link>
+    </button>
   </li>
 </template>
 
@@ -54,4 +55,8 @@ const props = defineProps<{
 onConfirm(() => {
   canbanStore.removeTask(props.stageId, props.task.id)
 })
+
+const goToTask = () => {
+  return navigateTo(`/tasks/${props.task.id}`)
+}
 </script>
