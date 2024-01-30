@@ -44,7 +44,7 @@
 
       <FormButton
         v-else
-        id="addStage"
+        id="add-stage-button"
         variant="secondary"
         @mouseover="hovering = true"
         @mouseleave="hovering = false"

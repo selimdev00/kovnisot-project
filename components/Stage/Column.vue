@@ -34,10 +34,11 @@
           <input
             ref="stageTitleRef"
             v-model="stageTitle"
+            name="stageTitle"
             type="text"
             class="bg-transparent focus:outline-blue-400 text-xl font-bold cursor-pointer"
             @blur="saveStage"
-          >
+          />
         </form>
       </div>
 
@@ -59,14 +60,8 @@
     </div>
 
     <div class="p-4 flex-1 flex flex-col gap-4 items-center bg-gray-50">
-      <transition
-        name="fade"
-        mode="out-in"
-      >
-        <div
-          v-if="!addingTask"
-          class="w-full flex flex-col gap-4"
-        >
+      <transition name="fade" mode="out-in">
+        <div v-if="!addingTask" class="w-full flex flex-col gap-4">
           <div class="w-full min-h-[80px] relative">
             <draggable
               v-model="stageTasks"
@@ -76,10 +71,7 @@
               @change="onTaskMove"
             >
               <template #item="{ element }">
-                <TaskItem
-                  :task="element"
-                  :stage-id="props.stage.id"
-                />
+                <TaskItem :task="element" :stage-id="props.stage.id" />
               </template>
             </draggable>
 
@@ -96,10 +88,7 @@
           <div class="flex flex-col gap-4">
             <div class="h-full flex flex-col gap-2 w-full">
               <div class="mx-auto">
-                <FormButton
-                  variant="secondary"
-                  @click="turnAddingTaskOn"
-                >
+                <FormButton variant="secondary" @click="turnAddingTaskOn">
                   <span>Add task</span>
 
                   <span>
