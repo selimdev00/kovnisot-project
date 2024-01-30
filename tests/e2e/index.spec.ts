@@ -31,3 +31,5 @@ test('Edit stage title', async ({ page }) => {
     'Test stage 1 edited',
   )
 })
+
+test('Delete stage', async ({ page }) => {})

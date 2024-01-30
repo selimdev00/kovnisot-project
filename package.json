@@ -44,6 +44,7 @@
     "@pinia/nuxt": "^0.5.1",
     "@playwright/test": "^1.41.1",
     "@vueuse/core": "^10.7.2",
+    "echarts": "^5.4.3",
     "luxon": "^3.4.4",
     "pinia": "^2.1.7",
     "vue3-toastify": "^0.2.1",

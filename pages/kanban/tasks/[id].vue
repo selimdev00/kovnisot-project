@@ -1,10 +1,7 @@
 <template>
   <div class="p-4 flex flex-col items-start gap-4">
     <div class="flex items-center gap-4">
-      <nuxt-link
-        to="/"
-        class="p-2 outline-blue-400"
-      >
+      <nuxt-link to="/" class="p-2 outline-blue-400">
         <div
           class="group inline-block flex justify-center items-center cursor-pointer"
         >
@@ -63,10 +60,7 @@
       <div
         class="p-4 bg-white rounded transition border border-gray-300 hover:border-blue-400 cursor-pointer relative w-full"
       >
-        <form
-          class="flex flex-col gap-2"
-          @submit.prevent="updateTask"
-        >
+        <form class="flex flex-col gap-2" @submit.prevent="updateTask">
           <FormInput
             id="title"
             v-model="task.title"
@@ -89,13 +83,9 @@
           />
 
           <div class="w-fit self-end flex gap-2">
-            <FormButton type="submit">
-              Save
-            </FormButton>
+            <FormButton type="submit"> Save </FormButton>
 
-            <FormButton variant="danger">
-              Delete
-            </FormButton>
+            <FormButton variant="danger"> Delete </FormButton>
           </div>
         </form>
       </div>
@@ -129,7 +119,7 @@ const updateTask = () => {
 }
 
 const handleGoBack = (e: KeyboardEvent) => {
-  if (e.key === 'Backspace' || e.key === 'Esc') {
+  if (e.key === 'Esc') {
     return navigateTo('/')
   }
 }
