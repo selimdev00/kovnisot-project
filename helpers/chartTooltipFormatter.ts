@@ -1,11 +1,13 @@
+import type { SeriesItem } from '~/types/Chart'
+
 export default function chartTooltipFormatter(options: {
   dataIndex: number
-  dataArray: any[]
+  series: SeriesItem[]
 }) {
   let items = ``
 
-  for (let i = 0; i < options.dataArray.length; i++) {
-    const data = options.dataArray[i]
+  for (let i = 0; i < options.series.length; i++) {
+    const data = options.series[i]
     const color = data.color
     const name = data.name
     const dataValue = data.data[options.dataIndex]
