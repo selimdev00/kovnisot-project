@@ -5,7 +5,7 @@ export default function generateMockDataForChart(options: {
   const mockData: number[] = []
 
   for (let i = 0; i < options.length; i++) {
-    const randomNumber = Math.floor(Math.random() * options.range) + 1
+    const randomNumber = Math.floor(Math.random() * (options.range / 2)) + 1
     mockData.push(randomNumber)
   }
 

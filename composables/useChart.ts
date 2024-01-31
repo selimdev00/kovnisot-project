@@ -1,14 +1,22 @@
 import { init } from 'echarts'
+import type { EChartsType } from 'echarts'
 
 import type { EChartsOption } from 'echarts/types/dist/shared'
 import chartTooltipFormatter from '~/helpers/chartTooltipFormatter'
 import type { SeriesItem } from '~/types/Chart'
 
 export function useChart(id: string, chartOptions: EChartsOption) {
-  onMounted(() => {
-    const chart = init(document.getElementById(id), 'custom')
+  const chart = ref<EChartsType | null>(null)
 
-    chart.setOption({
+  function windowResizer() {
+    if (!chart.value) return
+    chart.value.resize()
+  }
+
+  function initChart() {
+    chart.value = init(document.getElementById(id), 'custom')
+
+    chart.value.setOption({
       ...chartOptions,
       tooltip: {
         show: true,
@@ -20,8 +28,23 @@ export function useChart(id: string, chartOptions: EChartsOption) {
       },
     })
 
-    window.addEventListener('resize', () => {
-      chart.resize()
-    })
+    window.addEventListener('resize', windowResizer)
+  }
+
+  onMounted(() => {
+    initChart()
   })
+
+  onUnmounted(() => {
+    window.removeEventListener('resize', windowResizer)
+  })
+
+  watch(
+    () => chartOptions.series,
+    () => {
+      console.log('something changed')
+      window.removeEventListener('resize', windowResizer)
+      initChart()
+    },
+  )
 }

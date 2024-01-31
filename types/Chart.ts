@@ -5,4 +5,6 @@ export type SeriesItem = {
   stack?: string
   color?: string
   smooth?: boolean
+  totalDataValue?: number
+  percentage?: string
 }

@@ -119,6 +119,6 @@ useChart(props.id, {
     ],
   },
   yAxis: {},
-  series,
+  series: sections,
 } as EChartsOption)
 </script>

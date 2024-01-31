@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col text-white flex-1 gap-4">
+  <div class="flex flex-col text-white flex-1 gap-6">
     <h2 class="text-lg uppercase">Прибыль</h2>
 
     <div class="flex gap-2">
@@ -13,6 +13,7 @@
         v-for="item in series"
         :key="item.name"
         class="py-2 px-4 text-gray-500 rounded-lg bg-gray-800 flex items-center justify-center font-medium gap-2"
+        @click="handleFilter(item.name as string)"
       >
         <span
           class="block h-1 w-1 rounded-full border-[1px] border-opacity-90 border-gray-600"
@@ -21,6 +22,35 @@
 
         {{ item.name }}
       </button>
+    </div>
+
+    <div class="grid grid-cols-3 gap-4">
+      <div
+        v-for="item in series"
+        :key="item.name"
+        class="flex flex-col gap-3 border-r border-gray-800 last:border-0 pl-4 first:pl-0"
+      >
+        <span class="text-xl text-gray-400">{{ item.name }}</span>
+
+        <div class="flex flex-col">
+          <span class="text-xl text-white font-semibold">
+            {{ item.totalDataValue }}
+          </span>
+
+          <span class="text-gray-500 text-lg">/ 2.000</span>
+
+          <div class="flex items-center text-lime-200 gap-3">
+            <div class="h-[2px] w-[160px] bg-gray-700">
+              <div
+                class="h-full bg-lime-200"
+                :style="`width: ${item.percentage}%`"
+              />
+            </div>
+
+            <span>{{ item.percentage }}%</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div :id="id" class="h-[400px]" />
@@ -53,11 +83,26 @@ const series: SeriesItem[] = [
   },
 ]
 
+for (const item of series) {
+  item.totalDataValue = returnTotalData(item.data)
+  item.percentage = ((item.totalDataValue / 2000) * 100).toFixed(0)
+}
+
+const filteredSeries = ref<SeriesItem[]>(series)
+
+function handleFilter(name: string) {
+  filteredSeries.value = series.filter((e) => e.name === name)
+}
+
 useChart(props.id, {
-  series,
+  series: filteredSeries.value,
   yAxis: {
     data: ['Факт', 'План'],
   },
   xAxis: {},
 } as EChartsOption)
+
+function returnTotalData(data: number[]) {
+  return data.reduce((a, b) => a + b, 0)
+}
 </script>
