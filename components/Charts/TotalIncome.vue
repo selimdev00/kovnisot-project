@@ -1,54 +1,45 @@
 <template>
-  <div class="flex flex-col text-white">
-    <h2 class="text-xl">
-      ОБЩАЯ ВЫРУЧКА
-    </h2>
+  <div class="flex flex-col text-white flex-1">
+    <h2 class="text-lg uppercase">ОБЩАЯ ВЫРУЧКА</h2>
 
-    <div class="flex items-center w-full">
+    <div class="flex flex-wrap items-center w-full">
       <div
         v-for="section in categorySections"
         :key="section.id"
-        class="p-4 border-r border-neutral-600 last:border-0 flex-1 flex flex-col gap-1"
+        class="group p-4 flex-1 flex flex-col gap-1 min-w-[200px] relative justify-center"
       >
-        <h3 class="font-medium text-gray-500 uppercase flex gap-2 items-center">
+        <h3
+          class="font-medium text-gray-500 uppercase flex gap-2 items-center text-xl"
+        >
           <span
-            v-if="section.titleDotColor"
-            :class="`block h-1 w-1 rounded-full`"
-            :style="`background-color: ${section.titleDotColor}`"
+            v-if="section.color"
+            class="block h-1 w-1 rounded-full border-[1px] border-opacity-90 border-gray-600"
+            :style="`background-color: ${section.color}`"
           />
 
           {{ section.title }}
         </h3>
 
-        <p class="text-2xl">
+        <p class="text-2xl mt-2 font-semibold">
           {{ section.total }}
         </p>
+
+        <div
+          class="bg-neutral-800 w-[1px] h-[68px] absolute left-0 group-first:hidden"
+        />
       </div>
     </div>
 
-    <div
-      :id="id"
-      class="h-[400px]"
-    />
+    <div :id="id" class="h-[400px]" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { init, registerTheme } from 'echarts'
-import theme from '~/assets/echarts-theme.json'
+import { init } from 'echarts'
+import generateMockDataForChart from '~/helpers/generateMockDataForChart'
+import chartTooltipFormatter from '~/helpers/chartTooltipFormatter'
 
-const props = defineProps<{id: string}>()
-
-function generateMockChartData() {
-  const mockData = [];
-
-  for (let i = 0; i < 12; i++) {
-    const randomNumber = Math.floor(Math.random() * 100) + 1;
-    mockData.push(randomNumber);
-  }
-
-  return mockData;
-}
+const props = defineProps<{ id: string }>()
 
 const categorySections: CategorySection[] = [
   {
@@ -60,30 +51,56 @@ const categorySections: CategorySection[] = [
     id: 1,
     title: 'Деньги за мясо',
     total: '145 200 ₽ ',
-    titleDotColor: '#9747FF',
+    color: '#9747FF',
   },
   {
     id: 2,
     title: 'Расходы на ЗП',
     total: '1 223 500 ₽ ',
-    titleDotColor: '#0077F7',
+    color: '#0077F7',
   },
   {
     id: 3,
     title: 'Прочее',
     total: '23 500 ₽ ',
-    titleDotColor: '#13D6FF',
+    color: '#13D6FF',
   },
 ]
 
 onMounted(() => {
-  registerTheme('custom', theme)
-
   const chart = init(document.getElementById(props.id), 'custom')
 
+  const series = [
+    {
+      name: 'Прочее',
+      type: 'bar',
+      data: generateMockDataForChart({ length: 12, range: 100 }),
+      stack: 'x',
+      color: '#13D6FF',
+    },
+    {
+      name: 'ЗП',
+      type: 'bar',
+      data: generateMockDataForChart({ length: 12, range: 100 }),
+      stack: 'x',
+      color: '#0077F7',
+    },
+    {
+      name: 'Мясо',
+      type: 'bar',
+      data: generateMockDataForChart({ length: 12, range: 100 }),
+      stack: 'x',
+      color: '#9747FF',
+    },
+    {
+      data: generateMockDataForChart({ length: 12, range: 100 }),
+      type: 'line',
+      smooth: true,
+      color: '#C6EC92',
+    },
+  ]
 
   chart.setOption({
-    tooltip: {},
     xAxis: {
       data: [
         'Янв',
@@ -101,35 +118,18 @@ onMounted(() => {
       ],
     },
     yAxis: {},
-    series: [
-      {
-        name: 'Прочее',
-        type: 'bar',
-        data: generateMockChartData(),
-        stack: 'x',
-        color: '#13D6FF',
-      },
-      {
-        name: 'ЗП',
-        type: 'bar',
-        data: generateMockChartData(),
-        stack: 'x',
-        color: '#0077F7',
-      },
-      {
-        name: 'Мясо',
-        type: 'bar',
-        data: generateMockChartData(),
-        stack: 'x',
-        color: '#9747FF',
-      },
-      {
-        data: generateMockChartData(),
-        type: 'line',
-        smooth: true,
-        color: '#C6EC92'
-      }
-    ],
+    tooltip: {
+      formatter: (options: { dataIndex: number }) =>
+        chartTooltipFormatter({
+          dataIndex: options.dataIndex,
+          dataArray: series.filter((e) => e.name),
+        }),
+    },
+    series,
+  })
+
+  window.addEventListener('resize', () => {
+    chart.resize()
   })
 })
 
@@ -137,6 +137,6 @@ type CategorySection = {
   id: number
   title: string
   total: string
-  titleDotColor?: string
+  color?: string
 }
 </script>
