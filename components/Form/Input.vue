@@ -1,9 +1,6 @@
 <template>
   <div class="flex flex-col gap-1 w-full">
-    <label
-      :for="id"
-      class="text-sm text-gray-700"
-    >{{ label }}</label>
+    <label :for="id" class="text-sm text-gray-700">{{ label }}</label>
 
     <textarea
       v-if="type === 'textarea'"
@@ -24,8 +21,9 @@
       :type="type"
       :class="{ 'border-red-400': error, [inputClasses]: true }"
       :placeholder="placeholder"
+      :name="id"
       @input="handleInput"
-    >
+    />
 
     <div class="flex justify-end">
       <span class="text-xs text-red-400">{{ error }}</span>

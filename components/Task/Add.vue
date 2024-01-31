@@ -12,9 +12,7 @@
         />
       </button>
 
-      <h3 class="text-lg font-bold">
-        Add stage
-      </h3>
+      <h3 class="text-lg font-bold">Add task</h3>
     </div>
 
     <form
@@ -40,10 +38,7 @@
         :error="errors.description"
       />
 
-      <FormButton
-        type="submit"
-        variant="primary"
-      >
+      <FormButton type="submit" variant="primary">
         <IconPlusCircle /> Add task
       </FormButton>
     </form>

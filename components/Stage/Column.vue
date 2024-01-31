@@ -1,5 +1,6 @@
 <template>
   <div
+    :data-kanban-stage="stage.id"
     class="min-w-[400px] bg-red border border-gray-300 rounded flex flex-col transition"
   >
     <div
@@ -45,6 +46,8 @@
       <div class="flex gap-2">
         <button
           class="cursor-pointer text-gray-400 transition hover:text-red-600 p-1 outline-red-600 focus:text-red-600"
+          role="button"
+          alt="Delete stage"
           @click="removeStage"
         >
           <IconTrash />
@@ -52,6 +55,8 @@
 
         <button
           class="cursor-pointer text-gray-400 transition hover:text-blue-600 p-1 outline-blue-400 focus:text-blue-600"
+          role="button"
+          alt="Edit stage"
           @click="stageTitleRef?.focus()"
         >
           <IconPencilOutline />
@@ -62,16 +67,24 @@
     <div class="p-4 flex-1 flex flex-col gap-4 items-center bg-gray-50">
       <transition name="fade" mode="out-in">
         <div v-if="!addingTask" class="w-full flex flex-col gap-4">
-          <div class="w-full min-h-[80px] relative">
+          <div
+            class="w-full min-h-[80px] relative"
+            :data-stage-dropzone="stage.id"
+          >
             <draggable
               v-model="stageTasks"
               item-key="id"
               group="tasks"
-              class="flex flex-col gap-2 w-full h-full"
+              class="flex flex-col gap-2 w-full min-h-[80px]"
               @change="onTaskMove"
             >
               <template #item="{ element }">
-                <TaskItem :task="element" :stage-id="props.stage.id" />
+                <TaskItem
+                  :data-task-stage="props.stage.id"
+                  :data-task="element.id"
+                  :task="element"
+                  :stage-id="props.stage.id"
+                />
               </template>
             </draggable>
 
@@ -88,7 +101,13 @@
           <div class="flex flex-col gap-4">
             <div class="h-full flex flex-col gap-2 w-full">
               <div class="mx-auto">
-                <FormButton variant="secondary" @click="turnAddingTaskOn">
+                <FormButton
+                  variant="secondary"
+                  role="button"
+                  alt="Add task"
+                  name="Add task"
+                  @click="turnAddingTaskOn"
+                >
                   <span>Add task</span>
 
                   <span>

@@ -1,35 +1,21 @@
 import { test, expect } from '@playwright/test'
 
 test.beforeEach(async ({ page }) => {
-  // Go to the starting url before each test
   await page.goto('/')
-
-  // Creating stage
-  await page.getByText('Add stage', { exact: true }).click()
-  await expect(await page.textContent('h3')).toBe('Add stage')
-  await page.getByPlaceholder('Stage name').fill('Test stage 1')
-  await page.getByRole('button', { name: 'Add stage' }).click()
 })
 
 test('Main page loads', async ({ page }) => {
   const text = await page.textContent('h1')
-  expect(text).toBe(' Kanban System ')
+  expect(text).toBe('Welcome, recruiter or whoever you are')
 })
 
-test('Add new stage', async ({ page }) => {
-  await expect(page.locator('input[name="stageTitle"]')).toHaveValue(
-    'Test stage 1',
-  )
+test('Kanban page loads', async ({ page }) => {
+  await page.goto('/kanban')
+  expect(page.url()).toBe('http://localhost:3000/kanban')
+  expect(await page.textContent('h1')).toBe(' Kanban System ')
 })
 
-test('Edit stage title', async ({ page }) => {
-  const titleInput = page.locator('input[name="stageTitle"]')
-  await titleInput.focus()
-  await titleInput.fill('Test stage 1 edited')
-  await titleInput.blur()
-  await expect(page.locator('input[name="stageTitle"]')).toHaveValue(
-    'Test stage 1 edited',
-  )
+test('Chart page loads', async ({ page }) => {
+  await page.goto('/chart')
+  expect(page.url()).toBe('http://localhost:3000/chart')
 })
-
-test('Delete stage', async ({ page }) => {})

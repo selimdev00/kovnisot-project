@@ -8,24 +8,25 @@
         {{ task.title }}
       </h3>
 
-      <p
-        v-if="task.description"
-        class="text-gray-500 text-sm"
-      >
+      <p v-if="task.description" class="text-gray-500 text-sm">
         {{ task.description }}
       </p>
 
       <div class="flex absolute right-2 top-2">
         <button
           class="cursor-pointer text-gray-500 transition hover:text-red-600 outline-red-400 p-1 focus:text-red-600"
+          role="button"
+          alt="Delete task"
           @click.stop="reveal"
         >
           <IconTrash />
         </button>
 
         <nuxt-link
-          :to="`/tasks/${task.id}`"
+          :to="`/kanban/tasks/${task.id}`"
           class="p-1 outline-blue-400 focus:text-blue-600 hover:text-blue-600 text-gray-500 transition"
+          role="button"
+          alt="Edit task"
         >
           <IconPencilOutline />
         </nuxt-link>
@@ -62,6 +63,6 @@ onConfirm(() => {
 })
 
 const goToTask = () => {
-  return navigateTo(`/tasks/${props.task.id}`)
+  return navigateTo(`/kanban/tasks/${props.task.id}`)
 }
 </script>

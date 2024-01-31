@@ -13,7 +13,8 @@
     "test": "vitest",
     "e2e": "npx playwright test",
     "e2e:report": "npx playwright test --reporter dot",
-    "e2e:web": "npx playwright show-report"
+    "e2e:web": "npx playwright show-report",
+    "e2e:ui": "npx playwright test --ui"
   },
   "devDependencies": {
     "@nuxt/eslint-config": "^0.2.0",

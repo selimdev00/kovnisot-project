@@ -80,16 +80,36 @@
             v-model="task.stage_id"
             label="Stage"
             :options="stageOptions"
+            placeholder="Select stage"
           />
 
           <div class="w-fit self-end flex gap-2">
-            <FormButton type="submit"> Save </FormButton>
+            <FormButton type="submit" role="button" alt="Save">
+              Save
+            </FormButton>
 
-            <FormButton variant="danger"> Delete </FormButton>
+            <FormButton
+              variant="danger"
+              role="button"
+              alt="Delete task"
+              @click.prevent="removeTask"
+            >
+              Delete task
+            </FormButton>
           </div>
         </form>
       </div>
     </div>
+
+    <teleport to="body">
+      <ModalConfirm
+        :is-revealed="isRevealed"
+        title="Are you sure to delete this task?"
+        text="You won't be able to undo this action"
+        @confirm="confirm"
+        @cancel="cancel"
+      />
+    </teleport>
   </div>
 </template>
 
@@ -97,6 +117,9 @@
 import { DateTime } from 'luxon'
 import type { Option } from '~/types/FormSelect'
 import type { Stage, UpdateTaskDTO } from '~/types/Canban'
+import { useConfirmDialog } from '@vueuse/core'
+
+const { isRevealed, reveal, confirm, cancel, onConfirm } = useConfirmDialog()
 
 const canbanStore = useCanbanStore()
 const route = useRoute()
@@ -111,16 +134,14 @@ if (!task.value.id) {
 const stage = ref<Stage | null>(canbanStore.findStage(task.value.stage_id))
 
 const updateTask = () => {
-  task.value.stage_id = Number(task.value.stage_id)
-
   canbanStore.updateTask(task.value)
 
-  return navigateTo('/')
+  return navigateTo('/kanban')
 }
 
 const handleGoBack = (e: KeyboardEvent) => {
   if (e.key === 'Esc') {
-    return navigateTo('/')
+    return navigateTo('/kanban')
   }
 }
 
@@ -128,6 +149,15 @@ const stageOptions = computed<Option[]>(() => {
   return canbanStore.stages.map((e: Stage) => {
     return { key: e.title, value: e.id }
   })
+})
+
+const removeTask = () => {
+  reveal()
+}
+
+onConfirm(() => {
+  canbanStore.removeTask(task.value.stage_id, task.value.id)
+  return navigateTo('/kanban')
 })
 
 onMounted(() => {

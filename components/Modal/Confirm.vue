@@ -21,14 +21,13 @@
           <div class="flex gap-4">
             <FormButton
               ref="confirmButtonRef"
+              role="button"
+              alt="yes"
               @click="confirm"
             >
               {{ yes }}
             </FormButton>
-            <FormButton
-              variant="danger"
-              @click="cancel"
-            >
+            <FormButton variant="danger" role="button" alt="no" @click="cancel">
               {{ no }}
             </FormButton>
           </div>
