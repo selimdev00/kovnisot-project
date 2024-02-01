@@ -29,6 +29,10 @@ type LinkBlock = {
   description: string
 }
 
+useHead({
+  title: 'Welcome',
+})
+
 const links: LinkBlock[] = [
   {
     id: 1,

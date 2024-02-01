@@ -1,75 +1,94 @@
-# Nuxt 3 Minimal Starter
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+# Kovnisoft project (sotnikov) 📊
 
-## Setup
+Kanban system & Chart using Nuxt3 + TailwindCSS + Echart ✨
 
-Make sure to install the dependencies:
 
-```bash
-# npm
-npm install
+## Features
 
-# pnpm
-pnpm install
+- Kanban -> stages, tasks CRUD + localStorage syncronization 🔄️
+- Charts with real time dynamic data ℹ️
+- Tests with `playwright` for Kanban ✅
+- Accessibility boosted 📈
+- Build frontend with docker 👍
 
-# yarn
-yarn install
+## 🚀 About Me
+I'm a full stack developer...
 
-# bun
-bun install
-```
 
-## Development Server
+## Run Locally
 
-Start the development server on `http://localhost:3000`:
+Clone the project
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+  git clone https://github.com/selimdev00/kovnisot-project.git
 ```
 
-## Production
-
-Build the application for production:
+Go to the project directory
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+  cd kovnisot-project
 ```
 
-Locally preview production build:
+Install dependencies
 
 ```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
+  npm install
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Start the server
+
+```bash
+  npm run dev
+```
+
+*or*
+
+Build docker image
+
+```bash
+  docker build -t sotnikov-frontend .
+```
+
+Run docker container
+
+```bash
+  docker run -p 3000:3000 -d sotnikov-frontend
+```
+## Authors
+
+- [@selimdev](https://github.com/selimdev00)
+
+
+## Support
+
+For support, email selimdev00@gmail.com.
+
+
+## Running Tests (E2E)
+
+Tests are written in playwright, so there must be installed playwright on your host in order to run tests
+
+To run tests, you can run the following commands
+
+```bash
+  npm run e2e
+```
+
+```bash
+  npm run e2e:web
+```
+
+```bash
+  npm run e2e:ui
+```
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
+
+## Feedback
+
+If you have any feedback, please reach out to us at selimdev00@gmail.com
+

@@ -35,4 +35,8 @@
 
 <script setup lang="ts">
 const canbanStore = useCanbanStore()
+
+useHead({
+  title: 'Kanban',
+})
 </script>

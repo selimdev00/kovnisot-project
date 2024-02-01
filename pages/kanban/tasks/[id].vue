@@ -167,4 +167,8 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('keydown', handleGoBack)
 })
+
+useHead({
+  title: `Kanban | ${task.value.title}`,
+})
 </script>

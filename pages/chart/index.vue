@@ -36,6 +36,10 @@ import PlanFact from '~/components/Charts/PlanFact.vue'
 
 const isReady = ref<boolean>(false)
 
+useHead({
+  title: 'ECharts',
+})
+
 onMounted(() => {
   registerTheme('custom', theme)
 
