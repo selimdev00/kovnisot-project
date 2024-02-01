@@ -45,7 +45,7 @@
 
       <div class="flex gap-2">
         <button
-          class="cursor-pointer text-gray-400 transition hover:text-red-600 p-1 outline-red-600 focus:text-red-600"
+          class="cursor-pointer text-gray-500 transition hover:text-red-600 p-1 outline-red-600 focus:text-red-600"
           role="button"
           alt="Delete stage"
           @click="removeStage"
@@ -54,7 +54,7 @@
         </button>
 
         <button
-          class="cursor-pointer text-gray-400 transition hover:text-blue-600 p-1 outline-blue-400 focus:text-blue-600"
+          class="cursor-pointer text-gray-500 transition hover:text-blue-600 p-1 outline-blue-400 focus:text-blue-600"
           role="button"
           alt="Edit stage"
           @click="stageTitleRef?.focus()"

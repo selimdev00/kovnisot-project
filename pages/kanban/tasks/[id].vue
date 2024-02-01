@@ -1,14 +1,14 @@
 <template>
   <div class="p-4 flex flex-col items-start gap-4">
     <div class="flex items-center gap-4">
-      <nuxt-link to="/" class="p-2 outline-blue-400">
+      <nuxt-link to="/" class="p-2 outline-none group">
         <div
           class="group inline-block flex justify-center items-center cursor-pointer"
         >
           <IconArrowBack class="z-10" />
 
           <span
-            class="transition scale-0 group-hover:scale-100 absolute bg-blue-200 text-white w-[30px] h-[30px] rounded-full z-0"
+            class="transition scale-0 group-hover:scale-100 group-focus:scale-100 absolute bg-blue-200 text-white w-[30px] h-[30px] rounded-full z-0"
           />
         </div>
       </nuxt-link>
@@ -83,7 +83,7 @@
             placeholder="Select stage"
           />
 
-          <div class="w-fit self-end flex gap-2">
+          <div class="self-end flex items-center gap-2">
             <FormButton type="submit" role="button" alt="Save">
               Save
             </FormButton>

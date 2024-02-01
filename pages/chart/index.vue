@@ -1,9 +1,10 @@
 <template>
   <div
-    class="flex flex-col items-center bg-neutral-900 min-h-screen text-white gap-12"
+    class="flex flex-col items-center bg-neutral-900 min-h-screen text-white gap-4"
   >
     <div class="relative flex w-full justify-center items-center p-4">
-      <button
+      <nuxt-link
+        to="/"
         class="cursor-pointer group absolute left-4 text-4xl w-12 h-12 flex items-center justify-center outline-none"
       >
         <IconArrowBack class="z-10" />
@@ -11,7 +12,7 @@
         <div
           class="h-full w-full bg-neutral-700 rounded-full absolute top-0 left-0 scale-0 transition group-hover:scale-100 group-focus:scale-100 z-0"
         />
-      </button>
+      </nuxt-link>
 
       <h1 class="text-4xl font-bold">ECHART</h1>
     </div>

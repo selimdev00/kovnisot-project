@@ -1,7 +1,7 @@
 <template>
   <li>
     <button
-      class="p-4 bg-white rounded transition border border-gray-300 hover:border-blue-400 cursor-pointer relative outline-blue-400 focus:text-blue-600 hover:text-blue-600 w-full text-left"
+      class="outline-none p-4 bg-white rounded transition border-2 border-gray-300 hover:border-blue-400 cursor-pointer relative hover:text-blue-600 focus:text-blue-600 focus:border-blue-400 w-full text-left"
       @click="goToTask"
     >
       <h3 class="text font-bold">

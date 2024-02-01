@@ -7,7 +7,6 @@
       :id="id"
       :name="id"
       :value="modelValue"
-      class="w-full py-2 px-4 border border-gray-300 rounded hover:text-blue-400 hover:border-blue-400 transition bg-white focus:outline-blue-400 focus:border-blue-400"
       :class="{ 'border-red-400': error, [inputClasses]: true }"
       :placeholder="placeholder"
       @input="handleInput"
@@ -55,7 +54,7 @@ defineExpose({ input })
 const emit = defineEmits(['update:modelValue'])
 
 const inputClasses =
-  'w-full py-2 px-4 border border-gray-300 rounded hover:text-blue-400 hover:border-blue-400 transition bg-white focus:outline-blue-400 focus:border-blue-400'
+  'w-full py-2 px-4 border-2 outline-none border-gray-300 rounded hover:text-blue-400 hover:border-blue-400 transition bg-white  focus:border-blue-400'
 
 const handleInput = (event: Event) => {
   emit('update:modelValue', (event.target as HTMLInputElement).value)

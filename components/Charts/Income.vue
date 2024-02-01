@@ -2,30 +2,7 @@
   <div class="flex flex-col text-white flex-1 gap-6">
     <h2 class="text-lg uppercase">Прибыль</h2>
 
-    <div class="flex gap-2">
-      <button
-        class="group py-2 px-4 text-gray-500 rounded-lg bg-gray-800 flex items-center justify-center font-medium gap-2 transition"
-        :class="{ '!bg-blue-600 text-white': filter === 'all' }"
-        @click="filter = 'all'"
-      >
-        Все
-      </button>
-
-      <button
-        v-for="item in series"
-        :key="item.name"
-        class="group py-2 px-4 text-gray-500 rounded-lg bg-gray-800 flex items-center justify-center font-medium gap-2 transition"
-        :class="{ '!bg-blue-600 text-white': filter === item.name }"
-        @click="filter = item.name as string"
-      >
-        <span
-          class="block h-1 w-1 rounded-full border-[1px] border-opacity-90 border-gray-600"
-          :style="`background-color: ${filter === item.name ? 'white' : item.color}`"
-        />
-
-        {{ item.name }}
-      </button>
-    </div>
+    <ChartsCategorySelector v-model="filter" :options="series" />
 
     <transition-group
       tag="div"

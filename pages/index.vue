@@ -11,7 +11,7 @@
         v-for="link in links"
         :key="link.id"
         :to="link.to"
-        class="border border-blue-400 h-full uppercase font-semibold text-lg p-4 text-center flex items-center justify-center transition hover:bg-blue-50 rounded focus:outline-blue-400"
+        class="border border-blue-400 h-full uppercase font-semibold text-lg p-4 text-center flex items-center justify-center transition hover:bg-blue-50 rounded focus:bg-blue-50 outline-none"
       >
         {{ link.title }}
       </nuxt-link>
