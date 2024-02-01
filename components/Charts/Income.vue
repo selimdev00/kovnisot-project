@@ -8,12 +8,12 @@
       tag="div"
       name="list-fade-x"
       mode="out-in"
-      class="grid grid-cols-3 gap-4"
+      class="grid md:grid-cols-3 sm:grid-cols-2 gap-4"
     >
       <div
         v-for="item in filteredSeries"
         :key="item.name"
-        class="flex flex-col gap-3 border-r border-gray-800 last:border-0 pl-4 first:pl-0"
+        class="flex flex-col gap-3 border-r border-gray-800 last:border-0 md:pl-4 first:pl-0"
       >
         <span class="text-xl text-gray-400">{{ item.name }}</span>
 

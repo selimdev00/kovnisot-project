@@ -1,9 +1,9 @@
 <template>
-  <div class="min-h-screen p-4 flex flex-col">
-    <div class="flex w-full justify-center">
+  <div class="min-h-screen p-4 flex flex-col gap-4">
+    <div class="flex w-full justify-center items-center sm:text-4xl text-xl">
       <nuxt-link
         to="/"
-        class="cursor-pointer group absolute left-4 text-4xl w-12 h-12 flex items-center justify-center outline-none"
+        class="cursor-pointer group absolute left-4 w-12 h-12 flex items-center justify-center outline-none"
       >
         <IconArrowBack class="z-10" />
 
@@ -12,7 +12,7 @@
         />
       </nuxt-link>
 
-      <h1 class="text-4xl font-bold mb-4 text-center text-gray-800 uppercase">
+      <h1 class="font-bold text-center text-gray-800 uppercase">
         Kanban System
       </h1>
     </div>

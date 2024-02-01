@@ -1,12 +1,14 @@
 <template>
   <div class="p-10 flex flex-col gap-4 h-screen overflow-hidden">
-    <div class="flex flex-col items-center gap-2">
-      <h1 class="font-bold text-5xl">Welcome, recruiter or whoever you are</h1>
+    <div class="flex flex-col items-center gap-4">
+      <h1 class="font-bold sm:text-5xl text-3xl text-center leading-[1em]">
+        Welcome, recruiter or whoever you are
+      </h1>
 
-      <p class="text-lg text-gray-600">Choose section to check</p>
+      <p class="sm:text-lg text-gray-600">Choose section to check</p>
     </div>
 
-    <div class="grid grid-cols-2 gap-10 flex-1 h-full">
+    <div class="grid sm:grid-cols-2 gap-10 flex-1 h-full">
       <nuxt-link
         v-for="link in links"
         :key="link.id"

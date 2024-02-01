@@ -10,7 +10,7 @@
         @click.stop
       >
         <div class="flex flex-col items-center gap-5">
-          <div class="flex flex-col gap-1 items-center">
+          <div class="flex flex-col gap-1 items-center text-center">
             <h2 class="text-xl font-bold">
               {{ title }}
             </h2>

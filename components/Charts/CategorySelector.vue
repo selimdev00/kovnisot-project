@@ -1,5 +1,5 @@
 <template>
-  <div class="flex gap-2">
+  <div class="flex flex-wrap gap-2">
     <button
       class="group py-2 px-4 border-2 border-gray-800 text-gray-500 rounded-lg bg-gray-800 flex items-center justify-center font-medium gap-2 transition transition outline-none focus:border-blue-600"
       :class="{ '!bg-blue-600 text-white': filter === 'all' }"
