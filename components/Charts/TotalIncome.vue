@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col text-white flex-1">
+  <div class="flex flex-col text-white flex-1 h-full w-full">
     <h2 class="text-lg uppercase">ОБЩАЯ ВЫРУЧКА</h2>
 
     <div class="flex flex-wrap items-center w-full">
@@ -39,7 +39,7 @@
         </h3>
 
         <p class="text-2xl mt-2 font-semibold">
-          {{ (item.data.reduce((a, b) => a + b, 0) * 10000).toLocaleString() }}
+          {{ (returnDataTotalValue(item.data) * 10000).toLocaleString() }}
           ₽
         </p>
 
@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <div :id="id" class="h-[400px]" />
+    <div :id="id" class="h-[500px] w-full" />
   </div>
 </template>
 
@@ -58,6 +58,7 @@ import type { SeriesItem } from '~/types/Chart'
 import type { EChartsOption } from 'echarts/types/dist/shared'
 
 import generateMockDataForChart from '~/helpers/generateMockDataForChart'
+import returnDataTotalValue from '~/helpers/returnDataTotalValue'
 
 const props = defineProps<{ id: string }>()
 
@@ -65,26 +66,26 @@ const series: SeriesItem[] = [
   {
     name: 'Прочее',
     type: 'bar',
-    data: generateMockDataForChart({ length: 12, range: 100 }),
+    data: generateMockDataForChart({ length: 12, range: 500 }),
     stack: 'x',
     color: '#13D6FF',
   },
   {
     name: 'ЗП',
     type: 'bar',
-    data: generateMockDataForChart({ length: 12, range: 100 }),
+    data: generateMockDataForChart({ length: 12, range: 500 }),
     stack: 'x',
     color: '#0077F7',
   },
   {
     name: 'Мясо',
     type: 'bar',
-    data: generateMockDataForChart({ length: 12, range: 100 }),
+    data: generateMockDataForChart({ length: 12, range: 500 }),
     stack: 'x',
     color: '#9747FF',
   },
   {
-    data: generateMockDataForChart({ length: 12, range: 100 }),
+    data: generateMockDataForChart({ length: 12, range: 500 }),
     type: 'line',
     smooth: true,
     color: '#C6EC92',
@@ -94,14 +95,11 @@ const series: SeriesItem[] = [
 const sections: SeriesItem[] = series.filter((e) => e.name)
 
 const total = computed<string>(() => {
-  const total = sections.reduce(
-    (a, b) => a + b.data.reduce((a, b) => a + b, 0),
-    0,
-  )
+  const total = sections.reduce((a, b) => a + returnDataTotalValue(b.data), 0)
   return (total * 10000).toLocaleString() + ' ₽'
 })
 
-useChart(props.id, {
+const { loadChart } = useChart(props.id, {
   xAxis: {
     data: [
       'Янв',
@@ -119,6 +117,9 @@ useChart(props.id, {
     ],
   },
   yAxis: {},
-  series: sections,
 } as EChartsOption)
+
+onMounted(() => {
+  loadChart(series)
+})
 </script>

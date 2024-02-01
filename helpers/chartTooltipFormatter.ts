@@ -16,7 +16,7 @@ export default function chartTooltipFormatter(options: {
                 <span class="text-[#818281]">${name}</span>
 
                 <div class="flex items-center gap-2">
-                   <div class="w-[10px] h-[10px] rounded-full" style="background-color: ${color}"></div>
+                   <div class="rounded-full" style="background-color: ${color}; width: 10px; height: 10px;"></div>
 
                   <span class="font-semibold text-white">${dataValue}</span>
                 </div>

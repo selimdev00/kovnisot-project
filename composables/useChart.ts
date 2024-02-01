@@ -3,48 +3,60 @@ import type { EChartsType } from 'echarts'
 
 import type { EChartsOption } from 'echarts/types/dist/shared'
 import chartTooltipFormatter from '~/helpers/chartTooltipFormatter'
-import type { SeriesItem } from '~/types/Chart'
+import type { SeriesItem, TooltipFormatterOptions } from '~/types/Chart'
 
 export function useChart(id: string, chartOptions: EChartsOption) {
-  const chart = ref<EChartsType | null>(null)
+  let chart: EChartsType | null = null
 
-  function windowResizer() {
-    if (!chart.value) return
-    chart.value.resize()
+  const windowResizer = () => {
+    chart?.resize()
   }
 
-  function initChart() {
-    chart.value = init(document.getElementById(id), 'custom')
+  const loadChart = (series: SeriesItem[]): void => {
+    chart = init(document.getElementById(id), 'custom')
 
-    chart.value.setOption({
+    chart.setOption({
       ...chartOptions,
+      series,
+      grid: {
+        containLabel: true,
+        x: '3%',
+        y: '5%',
+        x2: '3%',
+        y2: '4%',
+        ...chartOptions.grid,
+      },
       tooltip: {
-        show: true,
-        formatter: (options: { dataIndex: number }) =>
-          chartTooltipFormatter({
-            dataIndex: options.dataIndex,
-            series: chartOptions.series as SeriesItem[],
-          }),
+        formatter: (options: TooltipFormatterOptions) => {
+          const dataIndex = Array.isArray(options)
+            ? options[0].dataIndex
+            : options.dataIndex
+
+          return chartTooltipFormatter({
+            dataIndex,
+            series: series.filter((e) => e.name),
+          })
+        },
+
+        ...chartOptions.tooltip,
       },
     })
 
     window.addEventListener('resize', windowResizer)
   }
 
-  onMounted(() => {
-    initChart()
-  })
+  const reloadChart = (series: SeriesItem[]): void => {
+    chart?.clear()
+
+    loadChart(series)
+  }
 
   onUnmounted(() => {
     window.removeEventListener('resize', windowResizer)
   })
 
-  watch(
-    () => chartOptions.series,
-    () => {
-      console.log('something changed')
-      window.removeEventListener('resize', windowResizer)
-      initChart()
-    },
-  )
+  return {
+    loadChart,
+    reloadChart,
+  }
 }

@@ -4,7 +4,9 @@
 
     <div class="flex gap-2">
       <button
-        class="py-2 px-4 text-white rounded-lg bg-blue-600 flex items-center justify-center font-medium"
+        class="group py-2 px-4 text-gray-500 rounded-lg bg-gray-800 flex items-center justify-center font-medium gap-2 transition"
+        :class="{ '!bg-blue-600 text-white': filter === 'all' }"
+        @click="filter = 'all'"
       >
         Все
       </button>
@@ -12,21 +14,27 @@
       <button
         v-for="item in series"
         :key="item.name"
-        class="py-2 px-4 text-gray-500 rounded-lg bg-gray-800 flex items-center justify-center font-medium gap-2"
-        @click="handleFilter(item.name as string)"
+        class="group py-2 px-4 text-gray-500 rounded-lg bg-gray-800 flex items-center justify-center font-medium gap-2 transition"
+        :class="{ '!bg-blue-600 text-white': filter === item.name }"
+        @click="filter = item.name as string"
       >
         <span
           class="block h-1 w-1 rounded-full border-[1px] border-opacity-90 border-gray-600"
-          :style="`background-color: ${item.color}`"
+          :style="`background-color: ${filter === item.name ? 'white' : item.color}`"
         />
 
         {{ item.name }}
       </button>
     </div>
 
-    <div class="grid grid-cols-3 gap-4">
+    <transition-group
+      tag="div"
+      name="list-fade-x"
+      mode="out-in"
+      class="grid grid-cols-3 gap-4"
+    >
       <div
-        v-for="item in series"
+        v-for="item in filteredSeries"
         :key="item.name"
         class="flex flex-col gap-3 border-r border-gray-800 last:border-0 pl-4 first:pl-0"
       >
@@ -51,9 +59,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </transition-group>
 
-    <div :id="id" class="h-[400px]" />
+    <div :id="id" class="h-[380px]" />
   </div>
 </template>
 
@@ -62,6 +70,7 @@ import type { SeriesItem } from '~/types/Chart'
 import { useChart } from '~/composables/useChart'
 
 import generateMockDataForChart from '~/helpers/generateMockDataForChart'
+import returnDataTotalValue from '~/helpers/returnDataTotalValue'
 import type { EChartsOption } from 'echarts/types/dist/shared'
 
 const props = defineProps<{ id: string }>()
@@ -84,25 +93,41 @@ const series: SeriesItem[] = [
 ]
 
 for (const item of series) {
-  item.totalDataValue = returnTotalData(item.data)
+  item.totalDataValue = returnDataTotalValue(item.data)
   item.percentage = ((item.totalDataValue / 2000) * 100).toFixed(0)
 }
 
-const filteredSeries = ref<SeriesItem[]>(series)
+const filter = ref<string>('all')
+const filteredSeries = computed<SeriesItem[]>(() => {
+  if (filter.value === 'all') {
+    return series
+  }
+  return series.filter((e) => e.name === filter.value)
+})
 
-function handleFilter(name: string) {
-  filteredSeries.value = series.filter((e) => e.name === name)
-}
-
-useChart(props.id, {
-  series: filteredSeries.value,
+const { loadChart, reloadChart } = useChart(props.id, {
   yAxis: {
     data: ['Факт', 'План'],
+
+    splitLine: {
+      show: true,
+      lineStyle: {
+        color: ['#292829'],
+      },
+    },
   },
-  xAxis: {},
+  xAxis: {
+    splitLine: {
+      show: false,
+    },
+  },
 } as EChartsOption)
 
-function returnTotalData(data: number[]) {
-  return data.reduce((a, b) => a + b, 0)
-}
+onMounted(() => {
+  loadChart(filteredSeries.value)
+})
+
+watch(filteredSeries, () => {
+  reloadChart(filteredSeries.value)
+})
 </script>
