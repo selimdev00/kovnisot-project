@@ -1,8 +1,21 @@
 <template>
   <div class="min-h-screen p-4 flex flex-col">
-    <h1 class="text-3xl font-bold mb-4 text-center text-gray-800 uppercase">
-      Kanban System
-    </h1>
+    <div class="flex w-full justify-center">
+      <nuxt-link
+        to="/"
+        class="cursor-pointer group absolute left-4 text-4xl w-12 h-12 flex items-center justify-center outline-none"
+      >
+        <IconArrowBack class="z-10" />
+
+        <div
+          class="h-full w-full bg-blue-100 rounded-full absolute top-0 left-0 scale-0 transition group-hover:scale-100 group-focus:scale-100 z-0"
+        />
+      </nuxt-link>
+
+      <h1 class="text-4xl font-bold mb-4 text-center text-gray-800 uppercase">
+        Kanban System
+      </h1>
+    </div>
 
     <div
       class="flex gap-4 py-4 flex-1 overflow-y-hidden overflow-x-auto transition-all"

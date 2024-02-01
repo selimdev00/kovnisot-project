@@ -14,7 +14,7 @@
         />
       </nuxt-link>
 
-      <h1 class="text-4xl font-bold">ECHART</h1>
+      <h1 class="text-4xl font-bold uppercase">ECHART</h1>
     </div>
 
     <div v-if="isReady" class="p-4 flex flex-col gap-4 w-full">
